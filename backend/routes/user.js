@@ -13,6 +13,11 @@ const signupBody = zod.object({
   password: zod.string(),
 });
 
+router.get("/", authMiddleware, async (req, res) => {
+  const result = await User.findOne({ _id: req.userId });
+  res.json(result);
+});
+
 router.post("/signup", async (req, res) => {
   const { success } = signupBody.safeParse(req.body);
   if (!success) {
